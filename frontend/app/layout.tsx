@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { useRouter,usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { isLoggedIn } from "@/utils/auth.js";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {

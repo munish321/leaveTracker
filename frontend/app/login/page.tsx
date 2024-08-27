@@ -18,11 +18,6 @@ export default function page() {
     axiosInstance.post("/login", {email:login.email,password:login.password }).then((res) => {
       if(res.status===201){
           setAuthentication(res.data.token)
-          debugger
-          if(res.data.data.role==="ADMIN"){
-             router.push("/admindashboard")
-             return;
-          }
           router.push("/")
       }
     });

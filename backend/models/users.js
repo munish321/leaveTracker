@@ -20,8 +20,18 @@ const userSchema = new mongoose.Schema({
  },
  role:{
   type:String,
-  required:[true,"Role is required"]
- }
+  required:[true,"Role is required"],
+  default:'USER'
+ },
+ imageUrl:{
+  type:String,
+  default:''
+ },
+isActive:{
+  type:Boolean,
+  default:false
+},
+
 })
 
 const user = mongoose.model("user",userSchema)
