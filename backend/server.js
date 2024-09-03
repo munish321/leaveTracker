@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors"
 import authRoutes from "./routes/authRoute.js"
 import leaveRoutes from "./routes/leaveRoute.js"
+import roleRoute from "./routes/roleRoute.js"
 dotenv.config()
 const app = express();
 // middle wares
@@ -19,5 +20,6 @@ try {
 // routes below
 app.use('/api',authRoutes)
 app.use('/api',leaveRoutes)
+app.use('/api',roleRoute)
 app.listen(4000, () => {
 });

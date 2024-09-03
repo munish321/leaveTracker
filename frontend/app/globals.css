@@ -69,7 +69,7 @@
 }
 @layer components{
   .input-field{
-    @apply outline-none border ring-0 focus-visible:ring-0 border-[#d9d9d9]
+    @apply outline-none border focus:ring-0 focus:ring-red-600 focus-visible:ring-0 border-[#d9d9d9]
   }
 }
 

@@ -26,7 +26,7 @@ const LeaveSchema = new mongoose.Schema({
   },
   reason:{
     type:String,
-    maxLength:[120,"Reason canot be greater then 120 characters"],
+    maxLength:[120,"Reason cannot be greater then 120 characters"],
   },
   status:{
     type:String,

@@ -31,7 +31,6 @@ isActive:{
   type:Boolean,
   default:false
 },
-
 })
 
 const user = mongoose.model("user",userSchema)
