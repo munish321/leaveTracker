@@ -1,18 +1,23 @@
 import formidable from "formidable";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const temp = path.join(__dirname, "temp");
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+
+const temp = path.join(dirname, "temp");
 if(!fs.existsSync(temp)){
   fs.mkdirSync(temp);
 }
 
 export const parseForm = (req,res,next)=>{
-    const form = new formidable.IncomingForm({
+    console.log('parseForm called')
+    const form = formidable({
         uploadDir: temp,
         keepExtensions: true,
         multiples: false,
-        maxFileSize: 5 * 1024 * 1024 // 5 MB
+        maxFileSize: 2 * 1024 * 1024 // 2 MB
     })
 
     form.parse(req, (err, fields, files) => {
@@ -20,8 +25,7 @@ export const parseForm = (req,res,next)=>{
           console.log('err',err)
           return res.status(500).json({message:"Something went wrong while parsing form."})
         }
-        req.body = fields
-        req.files = files
+        req.files = files.files
         next()
     })
 }

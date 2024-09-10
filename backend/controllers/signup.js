@@ -7,7 +7,11 @@ const superSalt = 10;
 const validateSignUp =async(req,res)=>{
   const {name,email,password} = req.body
   console.log(name,email,password)
-  if(name.trim().length === 0){
+  if(!name || !email || !password){
+    res.status(400).json({message:"All fields are required"})
+    return false
+  }
+  if(name.trim().length === 0 ){
     res.status(400).json({message:"Please enter a name"})
     return false;
   }
@@ -31,19 +35,18 @@ const validateSignUp =async(req,res)=>{
 }
  const signup = async (req, res) => {
   const { name,email, password } = req.body
+  try {
   const isValid =await validateSignUp(req,res)
   if(isValid){
-    try {
     const salt = await bcrypt.genSalt(superSalt)
     const hashedPassword = await bcrypt.hash(password, salt)
     const newUser =await User.create({name,email,password: hashedPassword,role:'USER'})
     res.status(201).json({
        message:"Account created successfully",
       })
-    } catch (error) {
-       res.status(400).json({message:error})
     }
-    
-  }
+  }catch (error) {
+    res.status(400).json({message:"Something went wrong, please try again"})
+ }
 }
 export default signup;

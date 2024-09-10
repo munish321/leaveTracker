@@ -41,7 +41,6 @@ export const CreateEmployeeDialog=({visible,onClose}:Props)=> {
      useEffect(() => {
         const createEmployee = async () => {
          await axiosInstance.post('/signup',data).then(res=>{
-           console.log(res.data)
          }).catch(err=>{
            console.log(err)
          })

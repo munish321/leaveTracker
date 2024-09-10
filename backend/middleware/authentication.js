@@ -7,7 +7,6 @@ export const authMiddleWare = async (req,res,next) => {
    jwt.verify(token,process.env.JWT_SECRET,(err,decoded)=>{
      if(err) return res.status(401).json({message:"Unauthorized user",data:err})
       req.user = decoded; // Assuming decoded token contains user information
-    console.log('req.user',req.user)
       next();
    })
 }

@@ -5,7 +5,7 @@ import cors from "cors"
 import authRoutes from "./routes/authRoute.js"
 import leaveRoutes from "./routes/leaveRoute.js"
 import roleRoute from "./routes/roleRoute.js"
-import { parseForm } from "./middleware/uploadMiddleware.js";
+import imageUploadRouter from "./routes/imageUploadRoute.js"
 dotenv.config()
 const app = express();
 // middle wares
@@ -17,7 +17,7 @@ let db,bucket;
 const dbName = process.env.MONGO_DB_NAME
 try {
   mongoose.connect(process.env.MONGO_URL).then(client=>{
-     db = client.db(dbName);
+     db = mongoose.connection.db;
      bucket = new mongoose.mongo.GridFSBucket(db,{bucketName:'uploads'})
   }).catch(err=>{
     console.log(err)
@@ -33,8 +33,9 @@ const attachBucket = (req, res, next) => {
   next();
 };
 // routes below
-app.use('/api',attachBucket,parseForm, authRoutes)
+app.use('/api', authRoutes)
 app.use('/api',leaveRoutes)
 app.use('/api',roleRoute)
+app.use('/api',attachBucket,imageUploadRouter)
 app.listen(4000, () => {
 });

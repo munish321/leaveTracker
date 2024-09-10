@@ -17,7 +17,6 @@ export const auth = async (req,res) => {
 export const loggedInUser = async (req,res) => {
    if(req.user===null && req.user===undefined){ 
     return res.status(400).json({message:"user is not authenticated"})
-      
    }
    return res.status(200).json({message:"user is authenticated",data:req.user})
 }
@@ -26,7 +25,6 @@ export const updateUser = async (req,res) => {
   if(!req.user){
     return res.status(400).json({message:"user is not authenticated"})
   }
-  console.log("reqFile",req.file)
   const user = await User.findByIdAndUpdate({_id:req.user._id},{...req.body},{new:true, runValidators: true})
   if(user){
     return res.status(200).json({message:"user updated successfully",data:user})

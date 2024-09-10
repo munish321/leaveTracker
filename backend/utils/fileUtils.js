@@ -4,12 +4,15 @@ export const uploadFileToGridFS = (filePath, fileName, bucket) => {
   return new Promise((resolve, reject) => {
     const readStream = fs.createReadStream(filePath);
     const uploadStream = bucket.openUploadStream(fileName);
-
+    console.log('uploadStream',uploadStream);
     readStream.pipe(uploadStream)
-      .on('error', reject)
+      .on('error',(err)=> reject(err))
       .on('finish', () => {
         cleanupTempFile(filePath); // Clean up the temp file after upload
-        resolve(uploadStream.id); // Resolve with the file's GridFS ID
+        const fileID = uploadStream.id;
+        const baseUrl = process.env.BASE_URL
+        const fileUrl = `${baseUrl}/files/${fileID}`; 
+        resolve(fileUrl); // Resolve with the file's GridFS ID
       });
   });
 };
