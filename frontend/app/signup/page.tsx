@@ -21,6 +21,10 @@ export default function page() {
           })
           setLogin({ email:"",password:"",name:'' })
           router.push("/login")
+         }else{
+          toast({
+            description: 'res.data.message',
+          })
          }
     }).catch((err)=>{
       console.log(err)

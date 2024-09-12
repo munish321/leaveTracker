@@ -7,6 +7,13 @@ import { useRouter,usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { isLoggedIn } from "@/utils/auth.js";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import {Provider} from "react-redux"
+import {store} from "@/redux/store"
+import { Loader } from "@/components/loader/Loader";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -32,10 +39,16 @@ export default function RootLayout({
     }
     isUserValid()
   }, []);
+  const queryClient = new QueryClient()
   return (
     <html lang="en">
       <body className={inter.className}>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <Loader/>
+            {children}
+          </Provider>
+        </QueryClientProvider>
         <Toaster />
       </body>
     </html>

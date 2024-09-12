@@ -6,7 +6,6 @@ import validator from "validator";
 const superSalt = 10;
 const validateSignUp =async(req,res)=>{
   const {name,email,password} = req.body
-  console.log(name,email,password)
   if(!name || !email || !password){
     res.status(400).json({message:"All fields are required"})
     return false

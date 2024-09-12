@@ -19,7 +19,20 @@ export default function page() {
       if(res.status===201){
           setAuthentication(res.data.token)
           router.push("/")
+      }else{
+        debugger
+        toast({
+          description: res.data.message,
+        })
       }
+    }).catch((err)=>{
+      console.log(err.response.data.message)
+      debugger
+      toast({
+        description: err.response.data.message,
+        duration: 5000,
+        variant: "destructive", // Use an appropriate variant for errors
+      });
     });
   }
 

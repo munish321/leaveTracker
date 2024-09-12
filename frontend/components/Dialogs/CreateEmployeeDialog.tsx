@@ -14,7 +14,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch"
-
+import {Dropdown} from '@/components/DropDown' 
+import {roleState} from "@/redux/slices/roleSlice"
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchRoles } from "@/service/roleService"
 interface Props{
   visible:boolean,
   header?:React.ReactNode
@@ -31,22 +34,22 @@ const schema = yup.object({
 }).required();
 
 export const CreateEmployeeDialog=({visible,onClose}:Props)=> {
+
   const { register, handleSubmit, formState:{ errors },control } = useForm({
     resolver: yupResolver(schema),
     defaultValues:{
       active:true
     }
   });
-  const onSubmit = (data:any) => {
-     useEffect(() => {
-        const createEmployee = async () => {
+  const roleStoreState = useSelector(roleState)
+  const {roles, isLoading, error} = fetchRoles()
+ 
+  const onSubmit = async(data:any) => {
          await axiosInstance.post('/signup',data).then(res=>{
+          console.log(res)
          }).catch(err=>{
            console.log(err)
          })
-        } 
-        createEmployee()
-     },[])
   }
   return (
     <Dialog open={visible} onOpenChange={(e)=>onClose(e)}>
@@ -72,7 +75,8 @@ export const CreateEmployeeDialog=({visible,onClose}:Props)=> {
           </div>
           <div className="w-full">
             <Label htmlFor="role" className="text-right">Role</Label>
-            <Input {...register("role")} className="input-field" />
+            {/* <Input {...register("role")} className="input-field" /> */}
+            <Dropdown placeholder="Select Role" options={roles} onSelect={(e)=>console.log(e)} />
             <small className="text-red-600">{errors.role?.message}</small>
           </div>
           </div>
