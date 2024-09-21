@@ -1,7 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "primeicons/primeicons.css";
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'primereact/resources/primereact.min.css';
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -72,4 +75,9 @@
     @apply outline-none border focus:ring-0 focus:ring-red-600 focus-visible:ring-0 border-[#d9d9d9]
   }
 }
-
+.p-menubar{
+  @apply !p-0
+}
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link{
+  @apply !py-[.5rem] !px-[.7rem]
+}

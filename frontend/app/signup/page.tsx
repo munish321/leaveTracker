@@ -27,8 +27,6 @@ export default function page() {
           })
          }
     }).catch((err)=>{
-      console.log(err)
-      debugger
       toast({
         description: err.response.data.message,
       })

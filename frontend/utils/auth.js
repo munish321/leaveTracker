@@ -11,7 +11,7 @@ removeCookie('token')
 export const isLoggedIn =async()=>{
   const token = getCookie('token')
   if(token){
-    return await axiosInstance.post("/auth",{token:token}).then((res)=>{
+    return await axiosInstance.post(`/auth/${token}`).then((res)=>{
       if(res.status===200){
         return res.data.auth
       }else{

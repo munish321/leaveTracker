@@ -7,7 +7,7 @@ const router = Router()
 // auth routes
 router.post('/signup', signup)
 router.post('/login', login)
-router.post('/auth', auth)
+router.post('/auth/:id', auth)
 router.get('/user',authMiddleWare, loggedInUser)
 router.put('/user',authMiddleWare, updateUser)
 

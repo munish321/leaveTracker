@@ -9,8 +9,7 @@ export const uploadFileToGridFS = (filePath, fileName, bucket) => {
       .on('finish', () => {
         cleanupTempFile(filePath); // Clean up the temp file after upload
         const fileID = uploadStream.id;
-        const baseUrl = process.env.BASE_URL
-        const fileUrl = `${baseUrl}/api/image/${fileID}`; 
+        const fileUrl = `${fileID}`; 
         resolve(fileUrl); // Resolve with the file's GridFS ID
       });
   });

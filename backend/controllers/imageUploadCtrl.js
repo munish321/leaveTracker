@@ -20,7 +20,8 @@ export const imageUpload = async (req,res)=>{
       }
     }
     const imageId = await uploadFileToGridFS(image.filepath,image.originalFilename,bucket)
-    const response = await User.findByIdAndUpdate(user._id,{imageUrl:imageId})
+    console.log('imageId',imageId)
+    const response = await User.findByIdAndUpdate(user._id,{imageUrl:imageId}, { new: true })
     res.status(200).json({message:"image uploaded successfully",data:response})
   } catch (error) {
     return res.status(400).json({message:"Somthing went wrong."})
@@ -39,9 +40,8 @@ export const getUpdatedImage =(req,res)=>{
     downloadStream.on('file', (file) => {
       res.set({
         'Content-Type': file.contentType || 'application/octet-stream',
-        'Content-Disposition': `attachment; filename="${file.filename}"`,
+        'Content-Disposition': `inline; filename="${file.filename}"`,
       });
     });
-    const lal = downloadStream.pipe(res);
-    console.log('lal',res)
+    downloadStream.pipe(res);
 }

@@ -33,13 +33,13 @@ const validateSignUp =async(req,res)=>{
   return true
 }
  const signup = async (req, res) => {
-  const { name,email, password } = req.body
+  const { name,email, password,role } = req.body
   try {
   const isValid =await validateSignUp(req,res)
   if(isValid){
     const salt = await bcrypt.genSalt(superSalt)
     const hashedPassword = await bcrypt.hash(password, salt)
-    const newUser =await User.create({name,email,password: hashedPassword,role:'USER'})
+    const newUser =await User.create({name,email,password: hashedPassword,role:role?role:'USER'})
     res.status(201).json({
        message:"Account created successfully",
       })

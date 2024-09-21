@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/users.js';
-export const auth = async (req,res) => {
-  const {token} = req.body
+export const auth = async(req,res) => {
+  const token = req.params.id
   if(token){
     try {
       const decoded = jwt.verify(token,process.env.JWT_SECRET)
@@ -18,7 +18,8 @@ export const loggedInUser = async (req,res) => {
    if(req.user===null && req.user===undefined){ 
     return res.status(400).json({message:"user is not authenticated"})
    }
-   return res.status(200).json({message:"user is authenticated",data:req.user})
+   const user = await User.find({_id:req.user._id})
+   return res.status(200).json({message:"user is authenticated",data:user[0]})
 }
 
 export const updateUser = async (req,res) => {

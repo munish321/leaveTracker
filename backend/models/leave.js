@@ -1,53 +1,39 @@
 import mongoose from "mongoose";
 
 const LeaveSchema = new mongoose.Schema({
-  leaveId:{
-    type:mongoose.Schema.Types.ObjectId,
-  },
-  employeeId:{
-    type:String,
-    required:[true,"Employee Id is required"],
+  userId:{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'user',
+    required: true 
   },
   leaveType:{
     type:String,
-    required:[true,"Leave Type is required"],
+    enum:['Sick','Casual','Maternity'],
+    required:true
   },
-  startDate:{
+  fromDate:{
     type:Date,
-    required:[true,"Start Date is required"],
+    required:true
   },
-  endDate:{
+  toDate:{
     type:Date,
-    required:[true,"End Date is required"],
-  },
-  duration:{
-    type:String,
-    required:[true,"Duration is required"],
+    required:true
   },
   reason:{
     type:String,
-    maxLength:[120,"Reason cannot be greater then 120 characters"],
   },
   status:{
     type:String,
-    required:[true,"Status is required field"],
+    enum:['Pending','Approved','Rejected'],
+    default:'Pending'
   },
-  approverId:{
-    type:String,
-    default:null,
+  approverId:{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true
   },
-  applicationDate:{
-    type:Date,
-    required:[true,"Application Date is required."],
-  },
-  attachment:{
-    type:String,
-  },
-  approvalDate:{
-    type:Date,
-    default:null
-  },
-})
+  approveDate:{ type: Date }
+}, { timestamps: true })
 
 const leave = mongoose.model('leave',LeaveSchema)
 export default leave;

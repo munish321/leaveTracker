@@ -6,6 +6,8 @@ import { axiosInstance } from "../../utils/api.js";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation";
 import {isLoggedIn, setAuthentication} from '../../utils/auth'
+import { setCurrentUser } from "@/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 export default function page() {
   const [login, setLogin] = useState({
     email: "",
@@ -13,21 +15,21 @@ export default function page() {
   });
   const { toast } = useToast()
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const handleLogin = () => {
-    axiosInstance.post("/login", {email:login.email,password:login.password }).then((res) => {
+    axiosInstance.post("/login", {email:login.email,password:login.password }).then(async(res) => {
       if(res.status===201){
           setAuthentication(res.data.token)
+            dispatch(setCurrentUser(res.data.data))
           router.push("/")
       }else{
-        debugger
         toast({
           description: res.data.message,
         })
       }
     }).catch((err)=>{
       console.log(err.response.data.message)
-      debugger
       toast({
         description: err.response.data.message,
         duration: 5000,

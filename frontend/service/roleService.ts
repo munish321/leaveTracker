@@ -4,6 +4,7 @@ import { setRoles } from '@/redux/slices/roleSlice';
 import { useEffect } from 'react';
 import { isPending } from '@reduxjs/toolkit';
 import {axiosInstance} from "@/utils/api"
+import type {IRole} from "@/redux/types/RoleType"
 
 export const fetchRoles = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const fetchRoles = () => {
     queryKey: ['fetchRoles'],
     queryFn: async () => {
       const response = await axiosInstance.get('/roles');
-      response.data.data = response.data.data.map((role: any) => ({ value:role.name,code:role.code }));
+      response.data.data = response.data.data.map((role: IRole) => ({ value:role.name,code:role.code }));
       return response?.data?.data || [];
     }
   });

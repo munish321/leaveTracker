@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoute.js"
 import leaveRoutes from "./routes/leaveRoute.js"
 import roleRoute from "./routes/roleRoute.js"
 import imageUploadRouter from "./routes/imageUploadRoute.js"
+import userRouter from "./routes/userRoute.js"
 dotenv.config()
 const app = express();
 // middle wares
@@ -36,6 +37,7 @@ const attachBucket = (req, res, next) => {
 app.use('/api', authRoutes)
 app.use('/api',leaveRoutes)
 app.use('/api',roleRoute)
+app.use('/api',userRouter)
 app.use('/api',attachBucket,imageUploadRouter)
 app.listen(4000, () => {
 });

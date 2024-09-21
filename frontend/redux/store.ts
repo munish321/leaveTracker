@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import roleReducer from '../redux/slices/roleSlice'
 import loaderReducer from '../redux/slices/loaderSlice'
+import userReducer from '../redux/slices/userSlice'
 export const store = configureStore({
   reducer: {
     roleReducer,
-    loaderReducer
+    loaderReducer,
+    userReducer
   },
 })
 

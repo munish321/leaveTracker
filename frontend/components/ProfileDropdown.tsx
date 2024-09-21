@@ -12,10 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { setCurrentUser,userState } from '@/redux/slices/userSlice'
+import { useSelector } from 'react-redux';
 
 export const ProfileDropdown=()=>{
   const router = useRouter()
   const [visible,setVisible] = useState(false)
+  const {userData} = useSelector(userState)
   const handleLogout = () => {
     logOut();
     router.push("/login")
@@ -38,11 +41,11 @@ export const ProfileDropdown=()=>{
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href={"/admindashboard"}>
+        {userData?.role==="ADMIN" && <Link href={"/admindashboard"}>
         <DropdownMenuItem className='cursor-pointer '>
             Admin Dashboard
           </DropdownMenuItem>
-        </Link>
+        </Link>}
           <DropdownMenuItem className='cursor-pointer' onClick={handle}>
             Profile
           </DropdownMenuItem>
