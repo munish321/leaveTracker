@@ -1,6 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import { useState } from "react";
 import { axiosInstance } from "../../utils/api.js";
 import { useToast } from "@/components/ui/use-toast"
@@ -43,7 +44,7 @@ export default function page() {
             <div className="text-2xl text-[#0c0d0e] font-bold text-center mb-[10px]">SignUp</div>
             <div className="mb-[10px] flex flex-col ">
               <label htmlFor="email" className="mb-[5px] font-normal">Name</label>
-              <Input
+              <InputText
               className="outline-none border-0 ring-0 focus-visible:ring-0 border-[#d9d9d9]"
                 placeholder="Name"
                 id="name"
@@ -52,7 +53,7 @@ export default function page() {
             </div>
             <div className="mb-[10px] flex flex-col ">
               <label htmlFor="email" className="mb-[5px] font-normal">E-Mail</label>
-              <Input
+              <InputText
               className="outline-none border-0 ring-0 focus-visible:ring-0 border-[#d9d9d9]"
                 placeholder="E-Mail"
                 id="email"
@@ -61,7 +62,7 @@ export default function page() {
             </div>
             <div className="mb-[10px] flex flex-col ">
               <label htmlFor="password" className="mb-[5px] font-normal">Password</label>
-              <Input
+              <InputText
               className="outline-none border-0 ring-0 focus-visible:ring-0 border-[#d9d9d9]"
                 placeholder="password"
                 onChange={(e) =>

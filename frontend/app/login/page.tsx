@@ -1,13 +1,15 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../utils/api.js";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation";
 import {isLoggedIn, setAuthentication} from '../../utils/auth'
-import { setCurrentUser } from "@/redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { currentUserData } from '@/service/userService';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '@/redux/slices/userSlice';
+
 export default function page() {
   const [login, setLogin] = useState({
     email: "",
@@ -21,12 +23,13 @@ export default function page() {
     axiosInstance.post("/login", {email:login.email,password:login.password }).then(async(res) => {
       if(res.status===201){
           setAuthentication(res.data.token)
-            dispatch(setCurrentUser(res.data.data))
+          const loggedIn = await currentUserData();
+          dispatch(setCurrentUser(loggedIn.data.data));
           router.push("/")
       }else{
-        toast({
-          description: res.data.message,
-        })
+        // toast({
+        //   description: res.data.message,
+        // })
       }
     }).catch((err)=>{
       console.log(err.response.data.message)
@@ -50,34 +53,33 @@ export default function page() {
   }, []);
   return (
     <>
-      <main className="flex h-screen">
-        <section className="flex basis-[70%] w-full items-center justify-center">
-          <div className="w-[350px] shadow-sm rounded-md bg-slate-100 px-[20px] py-[30px]">
-            <div className="text-2xl text-[#0c0d0e] font-bold text-center mb-[10px]">Login</div>
+      <main className="flex h-screen bg-[url('/login-bg.jpg')] bg-center bg-no-repeat bg-cover">
+        <section className="flex w-full items-center ml-[15%]">
+          <div className="w-[350px] shadow-xl rounded-xl px-[20px] pt-[30px] pb-[10px]">
+            <div className="text-2xl text-[var(--light-bg-color)] font-bold text-center mb-[20px]">Login</div>
             <div className="mb-[10px] flex flex-col ">
-              <label htmlFor="email" className="mb-[5px] font-normal">E-Mail</label>
-              <Input
-              className="outline-none border-0 ring-0 focus-visible:ring-0 border-[#d9d9d9]"
+              <label htmlFor="email" className="mb-[5px] text-white font-normal">E-Mail</label>
+              <InputText
+              className="!h-[40px] !border-0"
                 placeholder="email"
                 id="email"
                 onChange={(e) => setLogin({ ...login, email: e.target.value })}
               />
             </div>
             <div className="mb-[10px] flex flex-col ">
-              <label htmlFor="password" className="mb-[5px] font-normal">Password</label>
-              <Input
-              className="outline-none border-0 ring-0 focus-visible:ring-0 border-[#d9d9d9]"
+              <label htmlFor="password" className="mb-[5px] text-white font-normal">Password</label>
+              <InputText
+              className="!h-[40px] !border-0"
                 placeholder="password"
+                type='password'
                 onChange={(e) =>
                   setLogin({ ...login, password: e.target.value })
                 }
               />
             </div>
-            <Button className="w-full mt-2" onClick={handleLogin}>Login</Button>
+            <Button className="w-full mt-[40px]" onClick={handleLogin}>Login</Button>
+            <Button className="px-[40px] mt-[20px] !bg-transparent border border-transparent hover:border-white w-full rounded-[14px]" onClick={()=>router.push("/signup")}>Signup</Button>
           </div>
-        </section>
-        <section className="flex basis-[30%] justify-center items-center p-[10px] bg-[#6EACDA]">
-          <Button className="px-[40px] rounded-[14px]" onClick={()=>router.push("/signup")}>Signup</Button>
         </section>
       </main>
     </>

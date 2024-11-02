@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { leaveRequest } from "../controllers/leave.js";
+import { leaveRequest,getLeaveByApprover,getCurrentUserLeaves,updateLeaveBalance,remaingLeaves } from "../controllers/leave.js";
 const router = Router();
 
-router.post('/leave/:userId',leaveRequest)
+router.post('/leave',leaveRequest)
+
+router.get('/leave/approver/:approverId',getLeaveByApprover)
+router.get('/leave/currentUser/:userId',getCurrentUserLeaves)
+router.post('/leave-balance',updateLeaveBalance)
+router.get('/leave/remaining/:userId',remaingLeaves)
+router.get('/leave',leaveRequest)
 
 export default router;

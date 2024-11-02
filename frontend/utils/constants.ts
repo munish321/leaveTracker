@@ -1,7 +1,7 @@
 export interface SideBarProps {
   icon?:string,
    label:string,
-   url:string
+   url?:string
 }
 export const sideBarList:Array<SideBarProps>= [
   {
@@ -15,8 +15,8 @@ export const sideBarList:Array<SideBarProps>= [
    url:'/leave'
   },
   {
-   icon:'fa-solid fa-house',
-   label:'Dashboard',
-   url:'/'
+   icon:'fa-solid fa-user',
+   label:'Admin Dashboard',
+   url:'/dashboard/admin'
   },
 ]

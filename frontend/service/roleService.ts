@@ -14,7 +14,7 @@ export const fetchRoles = () => {
     queryKey: ['fetchRoles'],
     queryFn: async () => {
       const response = await axiosInstance.get('/roles');
-      response.data.data = response.data.data.map((role: IRole) => ({ value:role.name,code:role.code }));
+      response.data.data = response.data.data.map((role: IRole) => ({ name:role.name,code:role.code }));
       return response?.data?.data || [];
     }
   });

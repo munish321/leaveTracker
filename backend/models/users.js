@@ -49,10 +49,6 @@ department:{
   type:String,
   required:[true,"Department is required"],
 },
-designation:{
-  type:String,
-  required:[true,"Designation is required"],
-},
 dateOfJoining:{
   type:Date,
   required:[true,"Date of joining is required"],
@@ -61,10 +57,34 @@ salary:{
   type:Number,
   required:[true,"Salary is required"],
 },
-leaves:[{
-  type:mongoose.Schema.Types.ObjectId,
-  ref:'leave'
-}],
+leavesQuota:{
+  sick:{
+    type:Number,
+    default:10
+  },
+  casual:{
+    type:Number,
+    default:12
+  },
+  maternity:{
+    type:Number,
+    default:90
+  }
+},
+usedLeaves:{
+  sick:{
+    type:Number,
+    default:0
+  },
+  casual:{
+    type:Number,
+    default:0
+  },
+  maternity:{
+    type:Number,
+    default:0
+  }
+},
 supervisor:{
   type:mongoose.Schema.Types.ObjectId,
   ref:'user'

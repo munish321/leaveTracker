@@ -1,63 +1,55 @@
 "use client"
-import React, { useState,useEffect } from 'react'
+import { useState,useRef } from 'react'
+import type { MouseEvent } from 'react';
 import { useRouter } from "next/navigation";
 import { logOut } from "@/utils/auth";
 import Link from 'next/link';
 import { DialogBox } from './Dialogs/ProfileDialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { setCurrentUser,userState } from '@/redux/slices/userSlice'
-import { useSelector } from 'react-redux';
-
+import { OverlayPanel } from 'primereact/overlaypanel';
+import { UrlObject } from 'url';
+import { redirect } from 'next/navigation';
+interface IItems{
+  name: string
+  to?:UrlObject | string
+  code:string
+  command?:(e:any,item:IItems)=>void
+}
 export const ProfileDropdown=()=>{
   const router = useRouter()
   const [visible,setVisible] = useState(false)
-  const {userData} = useSelector(userState)
+  const op: any = useRef(null);
+  const cities:IItems[] = [
+      { name: 'Admin Dashboard', code: 'adminDashboard', to:"/dashboard/admin" },
+      { name: 'Profile', code: 'profile', command:()=>handle() },
+      { name: 'Log out', code: 'logout', command:()=>handleLogout() },
+  ];
   const handleLogout = () => {
     logOut();
-    router.push("/login")
+    redirect("/login")
+    // router.push("/login")
   }
-  useEffect(() => {
-      
-  },[])
   const handle = () => {
     setVisible(!visible)
   }
-  return (<>
-  <DialogBox visible={visible} onClose={handle}/>
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-         <div className='flex items-center cursor-pointer'>
-           <img src="/profile.jpg" className='w-[40px] '/>
-           <i className="fa-solid fa-caret-down"></i>
-         </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {userData?.role==="ADMIN" && <Link href={"/admindashboard"}>
-        <DropdownMenuItem className='cursor-pointer '>
-            Admin Dashboard
-          </DropdownMenuItem>
-        </Link>}
-          <DropdownMenuItem className='cursor-pointer' onClick={handle}>
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem className='cursor-pointer'>
-            Settings
-          </DropdownMenuItem>
-          
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+  const handleProfileItemClick =(e:MouseEvent,item:IItems)=>{
+    op.current.toggle(e)
+    item.command && item.command(e,item)
+  }
+  return (
+  <>
+    <DialogBox visible={visible} onClose={handle}/>
+    {/* image is for toggling profile menu dropdown */}
+    <img onClick={(e) => op.current.toggle(e)} src="/profile.jpg" className='w-[40px] rounded-full cursor-pointer' />
+    <OverlayPanel ref={op}>
+      {
+      cities.map((item,index)=>(
+        <Link href={item.to ?? ""} key={index}>
+        <li onClick={(event)=>handleProfileItemClick(event,item)} className='list-none hover:bg-blue-200 p-2 rounded-sm min-w-[200px] cursor-pointer'>
+          <span>{item.name}</span>
+        </li>
+        </Link>
+      ))
+      }
+    </OverlayPanel>
   </>)
 }

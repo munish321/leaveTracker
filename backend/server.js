@@ -7,6 +7,7 @@ import leaveRoutes from "./routes/leaveRoute.js"
 import roleRoute from "./routes/roleRoute.js"
 import imageUploadRouter from "./routes/imageUploadRoute.js"
 import userRouter from "./routes/userRoute.js"
+import { authMiddleWare } from "./middleware/authentication.js";
 dotenv.config()
 const app = express();
 // middle wares
@@ -25,6 +26,10 @@ try {
   })
 } catch (error) {
 }
+
+// auth middleware to check if user is authenticated
+app.use(authMiddleWare)
+
 // Middleware to attach bucket to req
 const attachBucket = (req, res, next) => {
   if (!bucket) {

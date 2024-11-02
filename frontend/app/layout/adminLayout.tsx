@@ -1,28 +1,22 @@
-import React from 'react'
-import { Input } from "@/components/ui/input"
-import { ProfileDropdown } from '@/components/ProfileDropdown'
-import { Separator } from "@/components/ui/separator"
-import { TopBar } from '@/components/TopBar'
-import {sideBarList} from "@/utils/constants"
+import React from "react";
+import { Separator } from "@/components/ui/separator";
+import { sideBarList } from "@/utils/constants";
+import { SideBar } from "@/components/SideBar";
+import { TopBar } from "@/components/TopBar";
 
-export const AdminLayout=({children}:any)=> {
-  return <>
-  <div className='flex w-full h-screen overflow-hidden'>
-     <section className='w-full '>
-      <div className='py-2 px-3 flex justify-between'>
-         <div>
-         <TopBar items={sideBarList} />
-         </div>
-         <div className='flex'>
-         <Input type="text" placeholder="Search"  />
-         <ProfileDropdown />
-         </div>
-      </div>
-      <Separator />
-      <div className='px-3'>
-      {children}
-      </div>
-     </section>
-  </div>
-  </>
-}
+export const AdminLayout = ({ children }: any) => {
+  return (
+    <>
+      <section className="flex flex-col w-auto h-screen overflow-hidden bg-[#f9fafb]">
+        <TopBar />
+        <Separator className="separator" />
+        <div className="w-auto flex m-[20px] flex-1 gap-3">
+          <div className="flex-[20%] rounded-[10px] py-[16px] bg-white h-full">
+            <SideBar items={sideBarList} />
+          </div>
+          <div className="flex-[80%] rounded-[10px] bg-[#ffffff] p-[10px]">{children}</div>
+        </div>
+      </section>
+    </>
+  );
+};

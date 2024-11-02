@@ -1,5 +1,4 @@
 "use client"
-import {AdminLayout} from '../layout/adminLayout'
 import { Button } from '@/components/ui/button'
 import {CreateEmployeeDialog} from "@/components/Dialogs/CreateEmployeeDialog"
 import { useSelector } from 'react-redux'
@@ -8,6 +7,7 @@ import { userState } from '@/redux/slices/userSlice'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { userList } from '@/service/userService'
+import { AdminLayout } from '../layout/adminLayout'
 function AdminDashboard() {
  const [createEmployee, setCreateEmployee] = useState(false)
  const { userData } = useSelector(userState)

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import {axiosInstance} from "@/utils/api"
 
-export const useCurrentUser =async()=>{
-  const response = await axiosInstance.get("/user");
-  return response.data.data || [];
+export const currentUserData =async()=>{
+  const response = await axiosInstance.get('/logged-user');
+  return response || [];
 }
 
 export const fetchUserImage =async(id:string)=>{
